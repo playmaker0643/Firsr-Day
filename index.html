@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIRST DAY SURVIVAL SYSTEM // v2.6</title>
+<meta name="description" content="A mission-control dashboard for students returning to school after holiday.">
+
+<!-- Monospace type pairing: Share Tech Mono for display / IBM Plex Mono for body-data -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ CRT / SCANLINE OVERLAY (purely decorative, sits above everything) ============ -->
+<div class="crt-overlay" aria-hidden="true"></div>
+<div class="noise-overlay" aria-hidden="true"></div>
+
+<!-- ============ BOOT SEQUENCE SCREEN ============ -->
+<section id="boot-screen" class="boot-screen" role="status" aria-live="polite">
+  <div class="boot-inner">
+    <div class="boot-logo">
+      <span class="boot-logo-bracket">[</span>F.D.S.S<span class="boot-logo-bracket">]</span>
+    </div>
+    <p class="boot-sub">FIRST DAY SURVIVAL SYSTEM</p>
+
+    <div class="boot-log" id="boot-log" aria-hidden="true"></div>
+
+    <div class="boot-progress-track">
+      <div class="boot-progress-fill" id="boot-progress-fill"></div>
+    </div>
+    <div class="boot-progress-label">
+      <span id="boot-progress-percent">0%</span>
+      <span id="boot-progress-text">BOOTING</span>
+    </div>
+
+    <button id="skip-boot" class="skip-boot-btn" type="button">SKIP &gt;&gt;</button>
+  </div>
+</section>
+
+<!-- ============ MAIN DASHBOARD (hidden until boot completes) ============ -->
+<main id="dashboard" class="dashboard" hidden>
+
+  <!-- ---------- TOP BAR ---------- -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-logo">[F.D.S.S]</span>
+      <span class="topbar-tag">STUDENT REENTRY PROTOCOL</span>
+    </div>
+    <div class="topbar-right">
+      <span class="live-dot" aria-hidden="true"></span>
+      <span id="clock" class="clock">00:00:00</span>
+    </div>
+  </header>
+
+  <!-- ---------- HERO / TITLE ---------- -->
+  <section class="hero">
+    <p class="hero-eyebrow">SESSION RESTORED FROM: <span id="holiday-length">a suspiciously long nap</span></p>
+    <h1 class="hero-title" data-text="WELCOME BACK, OPERATIVE.">WELCOME BACK, OPERATIVE.</h1>
+    <p class="hero-desc">Cognitive backup located. Reintegration in progress. Please remain calm while we assess the damage.</p>
+  </section>
+
+  <!-- ---------- STUDENT STATUS DASHBOARD ---------- -->
+  <section class="panel" aria-labelledby="status-heading">
+    <div class="panel-head">
+      <h2 id="status-heading">STUDENT STATUS DASHBOARD</h2>
+      <span class="panel-head-tag">LIVE DIAGNOSTIC</span>
+    </div>
+    <div class="stat-grid" id="stat-grid"><!-- injected by JS --></div>
+  </section>
+
+  <!-- ---------- SEMESTER THREAT ANALYSIS ---------- -->
+  <section class="panel panel-threat" aria-labelledby="threat-heading">
+    <div class="panel-head">
+      <h2 id="threat-heading">SEMESTER THREAT ANALYSIS</h2>
+      <span class="panel-head-tag panel-head-tag--alert">RISK SCAN</span>
+    </div>
+    <div class="threat-grid" id="threat-grid"><!-- injected by JS --></div>
+  </section>
+
+  <!-- ---------- MISSION PANEL + TERMINAL (side by side on desktop) ---------- -->
+  <div class="split-row">
+    <section class="panel panel-mission" aria-labelledby="mission-heading">
+      <div class="panel-head">
+        <h2 id="mission-heading">ACTIVE MISSIONS</h2>
+        <span class="panel-head-tag" id="mission-count-tag">0/5</span>
+      </div>
+      <ul class="mission-list" id="mission-list"><!-- injected by JS --></ul>
+    </section>
+
+    <section class="panel panel-terminal" aria-labelledby="terminal-heading">
+      <div class="panel-head">
+        <h2 id="terminal-heading">SYSTEM LOG</h2>
+        <span class="panel-head-tag">TAIL -F</span>
+      </div>
+      <div class="terminal" id="terminal" aria-live="polite"></div>
+    </section>
+  </div>
+
+  <!-- ---------- SIMULATION LAUNCH ---------- -->
+  <section class="launch-panel">
+    <p class="launch-caption">Diagnostics complete. Denial is no longer a viable strategy.</p>
+    <button id="start-sim" class="launch-btn" type="button">
+      <span class="launch-btn-glow" aria-hidden="true"></span>
+      <span class="launch-btn-label">START SEMESTER SIMULATION</span>
+    </button>
+    <p class="launch-hint">Warning: side effects may include sudden productivity.</p>
+  </section>
+
+  <footer class="page-footer">
+    <p>F.D.S.S BUILD 2026.1 &mdash; NO STUDENTS WERE HARMED DURING THIS DIAGNOSTIC<span class="blinker">_</span></p>
+  </footer>
+</main>
+
+<!-- ============ EMERGENCY ALERT OVERLAY (hidden until simulation starts) ============ -->
+<div id="emergency-overlay" class="emergency-overlay" hidden aria-hidden="true">
+  <div class="emergency-flash" aria-hidden="true"></div>
+  <div class="emergency-box">
+    <div class="emergency-siren">&#9888;</div>
+    <p class="emergency-tag">INCOMING TRANSMISSION</p>
+    <h2 class="emergency-title">NEW ASSIGNMENT RECEIVED</h2>
+    <p class="emergency-deadline">DEADLINE: <span>TOMORROW</span></p>
+    <p class="emergency-sub">Course correction impossible. Suggest immediate panic, followed by coffee.</p>
+    <button id="close-emergency" class="emergency-close" type="button">ACKNOWLEDGE</button>
+  </div>
+</div>
+
+<!-- ============ FINAL MESSAGE OVERLAY ============ -->
+<div id="final-overlay" class="final-overlay" hidden aria-hidden="true">
+  <div class="final-box">
+    <p class="final-eyebrow">TRANSMISSION COMPLETE</p>
+    <h2 class="final-title">Welcome back, future software engineers.</h2>
+    <p class="final-sub">The tutorial phase is over.</p>
+    <button id="close-final" class="final-close" type="button">RETURN TO DASHBOARD</button>
+  </div>
+</div>
+
+<!-- hidden audio-ish easter egg trigger zone -->
+<div class="easter-corner" id="easter-corner" aria-hidden="true"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
