@@ -215,7 +215,7 @@
   renderThreats();
 
   /* holiday length easter flavor text in hero */
-  const holidayLengths = ['3 weeks', '6 weeks', '2 months', 'an entire academic eternity', 'longer than the syllabus said it would be'];
+  const holidayLengths = ['84 days', '12 weeks', '3 months', 'an entire academic eternity', 'longer than the syllabus said it would be'];
   document.getElementById('holiday-length').textContent = pick(holidayLengths);
 
   /* ------------------------------------------------------------------
